@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>Register User</h3>
+    {{ form.errors }}
+    <form method="POST" action=".">
+        <dl>
+            <dt>{{ form.username.label_tag }}</dt>
+            <dd>{{ form.username }}</dd>
+            <dt>{{ form.password1.label_tag }}</dt>
+            <dd>{{ form.password1 }}</dd>
+            <dt>{{ form.password2.label_tag }}</dt>
+            <dd>{{ form.password2 }}</dd>
+        </dl>
+        <input type="submit" value="Register" />
+        <input type="hidden" name="next" value="{{ request.REQUEST.next }}" />
+    </form>
+{% endblock %}

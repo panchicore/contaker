@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>{{ request.user.username|capfirst }}'s account</h3>
+    <a href="{% url import_contacts %}">Import Contacts</a>
+    <a href="{% url logout %}">Logout</a>
+    </form>
+    
+{% endblock %}

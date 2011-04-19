@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Viewing {{ contact }}</h3>
+    <p>Email: {{ contact.email }}</p>
+    <p>Telephone: {{ contact.telephone }}</p>
+    <a href="{%  url edit_contact contact_id=contact.id %}">Edit</a>
+    <a href="{% url dashboard %}">Go Back</a>
+{% endblock %}

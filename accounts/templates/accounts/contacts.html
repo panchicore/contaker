@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>Import Contacts</h3>
+
+    {% load uni_form_tags %}
+    <form action="{% url update_contacts %}" method="POST" class="uniForm">
+    {% for c in contacts %}
+        {% if c.name != c.emails|first %}
+            <div id="div_contact_holder{{ forloop.counter }}" class="ctrlHolder ">
+                <input type="checkbox" name="selected{{ forloop.counter0 }}" checked class="checkbox" />
+                <input type="text" name="name{{ forloop.counter0 }}" value="{{ c.name }}" class="text" />
+                <input type="text" name="email{{ forloop.counter0 }}" value="{{ c.emails|first }}" class="text" />
+            </div>
+        {% endif %}
+    {% endfor %}
+    <input type="submit" class="small blue awesome" value="Add Contacts" />
+    <input type="hidden" name="total_contacts" value="{{ total }}" />
+    </form>
+    
+{% endblock %}

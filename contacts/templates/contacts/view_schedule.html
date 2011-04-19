@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Viewing {{ schedule }}</h3>
+    <p>Task: {{ schedule.task }}</p>
+    <p>Contact to: {{ schedule.contact_to }}</p>
+    <p>Date: {{ schedule.date_alert }}</p>
+    <a href="{%  url edit_schedule schedule_id=schedule.id %}">Edit</a>
+    <a href="{%  url delete_schedule schedule_id=schedule.id %}">Delete</a>
+    <a href="{% url dashboard %}">Go Back</a>
+{% endblock %}

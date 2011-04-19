@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>New Schedule</h3>
+{% load uni_form_tags %}
+<form action="{% url new_schedule %}" method="post" class="uniForm">
+    {{ form|as_uni_form }}
+    <input type="submit" value="Save" class="blue awesome">
+    <a href="{% url dashboard %}">Cancel</a>
+</form>
+
+{% endblock %}

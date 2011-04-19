@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="content">
+        <div id="login">
+            <h3>Connect with Gmail</h3>
+            {{ form.errors }}
+            <form method="POST" action=".">
+                <dl>
+                    <dt>{{ form.username.label_tag }}</dt>
+                    <dd>{{ form.username }}</dd>
+                    <dt>{{ form.password.label_tag }}</dt>
+                    <dd>{{ form.password }}</dd>
+                </dl>
+                <input type="submit" value="login" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

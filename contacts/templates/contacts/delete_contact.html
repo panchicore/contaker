@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>Delete {{ contact }}?</h3>
+
+<form action="{% url delete_contact contact.id %}" method="post">
+    <label>Do you want to delete {{ contact }}?</label>
+    <input type="submit" value="Yes">
+    <a href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+</form>
+
+{% endblock %}

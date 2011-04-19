@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+            <div id="contacts">
+                <h3>Contacts</h3>
+                <p><a href="{% url new_contact %}">Add new contact</a></p>
+
+                <div id="accordion">
+                    {% for c in contacts %}
+                            <h3><a href="#">{{ c }}</a></h3>
+                            <div class="pane">
+                                <a href="{% url view_contact contact_id=c.id  %}">View</a>
+                                <a href="{% url edit_contact contact_id=c.id  %}">Edit</a>
+                                <a href="{% url delete_contact contact_id=c.id  %}">Delete</a>
+                            </div>
+                    {% empty %}
+                        <p>Oops, no contacts here :(</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+			<div id="schedules">
+				<h3>Schedules</h3>
+                <p><a href="{% url new_schedule %}">Add new schedule</a></p>
+                    <ul>
+                    {% for s in schedules %}
+                        <li><a href="{% url view_schedule schedule_id=s.id  %}">{{ s }}</a></li>
+                    {% empty %}
+                        <li><p>Oops, no schedules here :(</p></li>
+                    {% endfor %}
+                    </ul>
+			</div>
+
+			<div id="history">
+				<h3>History</h3>
+                <ol>
+                {% for h in histories %}
+                    <li>{{ h }}</li>
+                {% empty %}
+                    <li><p>Oops, no schedules here :(</p></li>
+                {% endfor %}
+                </ol>
+			</div>
+
+			<div id="tools">
+				<h3>Tools</h3>
+				<form method="post" action="templates">
+				<div id="search">
+					<input type="text" class="text" name="keywords" />
+					<input type="submit" class="button" value="Go" />
+					<br class="clear" />
+				</div>
+				</form>
+			</div>
+
+{% endblock %}
+

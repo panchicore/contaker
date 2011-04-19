@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>Edit {{ contact }}</h3>
+{% load uni_form_tags %}
+<form action="{% url edit_contact contact.id %}" method="post" class="uniForm   ">
+    {{ form|as_uni_form }}
+    <input type="submit" value="save" class="blue awesome">
+    <a href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+</form>
+
+{% endblock %}

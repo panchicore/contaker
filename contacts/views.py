@@ -19,13 +19,14 @@ def dashboard(request):
         return render_to_response('contacts/dashboard.html', {'dashboard_active':'active', 'contacts':contacts, 'schedules':schedules, 'histories':histories },
                                     context_instance=RequestContext(request))
     except Exception, e:
-         return general_error(request, title='Error in Dashboard', message=e.message, redirect='accounts')
+         return general_error(request, title='Error in Dashboard', message=e.message, redirect='home.views.index')
 
 @login_required
 def view_contact(request, contact_id):
     try:
         c = Contact.active.get(id=contact_id, user=request.user)
 
+        
         ch = ContactHistory()
         ch.user = request.user
         ch.action = 'viewed'
@@ -35,7 +36,7 @@ def view_contact(request, contact_id):
         return render_to_response('contacts/view_contact.html', {'dashboard_active':'active', 'contact':c},
                                   context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Viewing Contact', message=e.message, redirect='accounts')
+        return general_error(request, title='Error Viewing Contact', message=e.message, redirect='contacts.views.dashboard')
 
 @login_required
 def view_schedule(request, schedule_id):
@@ -44,7 +45,7 @@ def view_schedule(request, schedule_id):
         return render_to_response('contacts/view_schedule.html', {'dashboard_active':'active', 'schedule':cs},
                                   context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Viewing Schedule', message=e.message, redirect='accounts')
+        return general_error(request, title='Error Viewing Schedule', message=e.message, redirect='contacts.views.dashboard')
 
 @login_required
 def new_contact(request):
@@ -70,7 +71,7 @@ def new_contact(request):
         return render_to_response('contacts/new_contact.html', {'dashboard_active':'active', 'form':form},
                                     context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Creating Contact', message=e.message, redirect='accounts')
+        return general_error(request, title='Error Creating Contact', message=e.message, redirect='contacts.views.dashboard')
 
 @login_required
 def edit_contact(request, contact_id):
@@ -98,7 +99,7 @@ def edit_contact(request, contact_id):
             return render_to_response('contacts/edit_contact.html', {'dashboard_active':'active', 'form':form, 'contact':c},
                                         context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Editing Contact', message=e.message, redirect='accounts')
+        return general_error(request, title='Error Editing Contact', message=e.message, redirect='contacts.views.dashboard')
 
 @login_required
 def delete_contact(request, contact_id):
@@ -114,7 +115,7 @@ def delete_contact(request, contact_id):
             return render_to_response('contacts/delete_contact.html', {'dashboard_active':'active', 'contact':c},
                                       context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Deleting Contact', message=e.message, redirect='accounts')
+        return general_error(request, title='Error Deleting Contact', message=e.message, redirect='contacts.views.dashboard')
 
 @login_required
 def new_schedule(request):
@@ -133,7 +134,7 @@ def new_schedule(request):
             return render_to_response('contacts/new_schedule.html', {'dashboard_active':'active', 'form':form},
                                     context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Creating Schedule', message=e.message, redirect='accounts')
+        return general_error(request, title='Error Creating Schedule', message=e.message, redirect='contacts.views.dashboard')
 
 @login_required
 def edit_schedule(request, schedule_id):
@@ -155,7 +156,7 @@ def edit_schedule(request, schedule_id):
             return render_to_response('contacts/edit_schedule.html', {'dashboard_active':'active', 'form':form, 'schedule':cs},
                                         context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Editing Schedule', message=e.message, redirect='accounts')
+        return general_error(request, title='Error Editing Schedule', message=e.message, redirect='contacts.views.dashboard')
 
 @login_required
 def delete_schedule(request, schedule_id):
@@ -165,4 +166,4 @@ def delete_schedule(request, schedule_id):
         messages.success(request, 'schedule deleted')
         return HttpResponseRedirect(reverse('dashboard'))
     except Exception, e:
-        return general_error(request, title='Error Deleting Schedule', message=e.message, redirect='accounts')
+        return general_error(request, title='Error Deleting Schedule', message=e.message, redirect='contacts.views.dashboard')

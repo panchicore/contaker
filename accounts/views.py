@@ -17,21 +17,25 @@ def user_settings(request):
 
 def user_login(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        try:
+            form = AuthenticationForm(data=request.POST)
 
-        if form.is_valid():
-            user = authenticate(username=request.POST['username'], password=request.POST['password'])
-            if user is not None:
-                login(request, user)
-                return HttpResponseRedirect(request.POST['next'])
+            if form.is_valid():
+                user = authenticate(username=request.POST['username'], password=request.POST['password'])
+                if user is not None:
+                    login(request, user)
+                    return HttpResponseRedirect(request.POST['next'])
+                else:
+                    return HttpResponseRedirect(reverse('home'))
             else:
                 return HttpResponseRedirect(reverse('home'))
-        else:
-            return HttpResponseRedirect(reverse('home'))
+        except:
+            from django.conf.urls.defaults import handler500
+            return HttpResponseRedirect(handler500)
     else:
         form = AuthenticationForm()
         
-    return render_to_response('accounts/login.html', {'accounts_active':'active', 'form':form},
+        return render_to_response('accounts/login.html', {'accounts_active':'active', 'form':form},
                               context_instance=RequestContext(request))
 @login_required
 def user_logout(request):
@@ -57,20 +61,26 @@ def user_register(request):
 @login_required
 def import_contacts(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        try:
+            form = AuthenticationForm(data=request.POST)
 
-        o = OpenInviter()
+            o = OpenInviter()
 
-        contacts = o.contacts(request.POST['username'], request.POST['password'])
+            contacts = o.contacts(request.POST['username'], request.POST['password'])
 
-        total = len(contacts)
+            total = len(contacts)
 
-        if contacts is not None:
-            return render_to_response('accounts/contacts.html', {'accounts_active':'active', 'contacts':contacts, 'total':total, },
-                                    context_instance=RequestContext(request))
-        else:
-            return HttpResponseRedirect(reverse('accounts'))
-
+            if contacts is not None:
+                return render_to_response('accounts/contacts.html', {'accounts_active':'active', 'contacts':contacts, 'total':total, },
+                                        context_instance=RequestContext(request))
+            else:
+                return HttpResponseRedirect(reverse('accounts'))
+        except:
+            #from django.conf.urls.defaults import handler500
+            #return HttpResponseRedirect(reverse('errors.views.general_error'))
+            from errors.views import general_error
+            
+            return general_error(request, title='Error Importing', message='Invalid credentials', redirect='accounts')
     else:
         form = AuthenticationForm()
 

@@ -8,3 +8,7 @@ def http404(request):
 def http500(request):
     return render_to_response("errors/500.html", {'site_location':'Error 500', },
                               context_instance=RequestContext(request))
+
+def general_error(request, title, message, redirect):
+    return render_to_response("errors/general.html", {'site_location':'Error', 'title':title, 'message':message, 'redirect':redirect },
+                              context_instance=RequestContext(request))

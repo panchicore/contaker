@@ -1,6 +1,6 @@
-{% extends 'errors/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <h3>Error 500</h3>
-    <p>Server error</p>
+    <h3>{{ title }}</h3>
+    <p>{{ message }}</p>
 {% endblock %}

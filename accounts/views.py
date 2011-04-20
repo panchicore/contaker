@@ -25,16 +25,16 @@ def user_login(request):
                     login(request, user)
                     return HttpResponseRedirect(request.POST['next'])
                 else:
-                    return general_error(request, title='Error Login', message='Invalid Authentication', redirect='accounts')
+                    return general_error(request, title='Error Login', message='Invalid Authentication', redirect='accounts.views.user_login')
             else:
-                return general_error(request, title='Error Login', message='Invalid Authentication Form', redirect='accounts')
+                return general_error(request, title='Error Login', message='Invalid Authentication Form', redirect='accounts.views.user_login')
         else:
             form = AuthenticationForm()
 
             return render_to_response('accounts/login.html', {'accounts_active':'active', 'form':form},
                                   context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Login', message=e.message, redirect='accounts')
+        return general_error(request, title='Error Login', message=e.message, redirect='accounts.views.user_login')
 
 @login_required
 def user_logout(request):
@@ -58,31 +58,36 @@ def user_register(request):
             return render_to_response('accounts/register.html', {'accounts_active':'active', 'form':form},
                                   context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Registering', message=e.message, redirect='accounts')
+        return general_error(request, title='Error Registering', message=e.message, redirect='accounts.views.user_register')
 
 @login_required
 def import_contacts(request):
     try:
         if request.method == 'POST':
-            form = AuthenticationForm(data=request.POST)
+            from accounts.forms import ImportContactsForm
+            form = ImportContactsForm(data=request.POST)
 
-            o = OpenInviter()
-            contacts = o.contacts(request.POST['username'], request.POST['password'])
+            if form.is_valid():
+                o = OpenInviter()
+                contacts = o.contacts(request.POST['email'], request.POST['password'])
 
-            total = len(contacts)
+                total = len(contacts)
 
-            if contacts is not None:
-                return render_to_response('accounts/contacts.html', {'accounts_active':'active', 'contacts':contacts, 'total':total, },
-                                        context_instance=RequestContext(request))
+                if contacts is not None:
+                    return render_to_response('accounts/contacts.html', {'accounts_active':'active', 'contacts':contacts, 'total':total, },
+                                            context_instance=RequestContext(request))
+                else:
+                    return HttpResponseRedirect(reverse('accounts'))
             else:
-                return HttpResponseRedirect(reverse('accounts'))
+                return general_error(request, title='Error Importing Contacts', message='Invalid Authentication Form', redirect='accounts.views.import_contacts')
         else:
-            form = AuthenticationForm()
+            from accounts.forms import ImportContactsForm
+            form = ImportContactsForm()
 
             return render_to_response('accounts/import.html', {'accounts_active':'active', 'form':form, },
                                         context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Importing Contacts', message=e.message, redirect='accounts')
+        return general_error(request, title='Error Importing Contacts', message=e.message, redirect='accounts.views.import_contacts')
     
 @login_required
 def update_contacts(request):

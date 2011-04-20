@@ -1,18 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% load uni_form_tags %}
     <div id="content">
         <div id="login">
             <h3>Login</h3>
             {{ form.errors }}
-            <form method="POST" action=".">
-                <dl>
-                    <dt>{{ form.username.label_tag }}</dt>
-                    <dd>{{ form.username }}</dd>
-                    <dt>{{ form.password.label_tag }}</dt>
-                    <dd>{{ form.password }}</dd>
-                </dl>
-                <input type="submit" value="login" />
+            <form method="POST" action="." class="uniForm">
+                {{ form|as_uni_form }}
+                <input type="submit" value="Login" class="small blue awesome" />
                 <input type="hidden" name="next" value="{{ request.GET.next }}" />
             </form>
         </div>

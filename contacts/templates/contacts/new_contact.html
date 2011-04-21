@@ -3,6 +3,13 @@
 {% block content %}
 <h3>New Contact</h3>
 {% load uni_form_tags %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 <form action="{% url new_contact %}" method="post" class="uniForm">
     {{ form|as_uni_form }}
     <input type="submit" value="save" class="blue awesome">

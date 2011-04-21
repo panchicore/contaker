@@ -6,7 +6,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Your Name', 'juanyunis@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -164,3 +164,11 @@ LOGOUT_URL = ''
 
 OPENINVITER_USERNAME = 'juanyunis'
 OPENINVITER_PRIVATE_KEY = 'a79f02e58e2f859c0f3c843b96f5ca8e'
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'juanyunis@gmail.com'
+EMAIL_HOST_PASSWORD = 'GreyhawK891107'
+DEFAULT_FROM_EMAIL = 'juanyunis@gmail.com'
+EMAIL_USE_TLS = True

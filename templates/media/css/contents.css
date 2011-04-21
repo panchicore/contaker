@@ -1,0 +1,48 @@
+/* DASHBOARD CONTENT */
+#contacts
+{
+	float: left;
+	width: 250px;
+	padding: 0em 2em 0.5em 2.3em;
+}
+
+#schedules
+{
+	width: 180px;
+	float: left;
+	padding: 0em 2em 0.5em 2em;
+	border-left: dotted 1px #E1E1E1;
+}
+
+#history
+{
+	width: 175px;
+	float: left;
+	padding: 0em 2em 0.5em 2em;
+	border-left: dotted 1px #E1E1E1;
+}
+
+#tools
+{
+	width: 142px;
+	float: left;
+	padding: 0em 2em 0.5em 2em;
+	border-left: dotted 1px #E1E1E1;
+}
+/* END DASHBOARD CONTENT */
+
+/* ACCOUNTS CONTENT */
+#login
+{
+    float:left;
+    width:250px;
+	padding: 0em 2em 0.5em 2.3em;
+}
+
+#register
+{
+    float:left;
+    width:250px;
+	padding: 0em 2em 0.5em 2.3em;
+}
+/* END ACCOUNTS CONTENT */

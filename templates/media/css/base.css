@@ -1,0 +1,200 @@
+html,
+
+/* COMMON BODY */
+body
+{
+   background-color:#fff;
+   font-size:9pt;
+   font-family:"Trebuchet MS", sans-serif;
+   color: #585858;
+   margin:0;
+   padding:0;
+   height:100%;
+}
+
+a
+{
+	text-decoration: underline;
+	color: #2FB0CA;
+}
+
+a:hover
+{
+	text-decoration: none;
+}
+
+p
+{
+	line-height: 1.8em;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+	font-weight: normal;
+	letter-spacing: -1px;
+}
+
+h3, h4, h5, h6
+{
+	color: #2F91CA;
+}
+/* END COMMON BODY */
+
+/* WEB CONTAINER */
+#container
+{
+   min-height:100%;
+   position:relative;
+}
+/* END WEB CONTAINER */
+
+/* HEADER */
+#header
+{
+	background: #069 url('/media/images/headerbg.png') repeat-x;
+}
+
+#header_content
+{
+	position: relative;
+	width: 950px;
+	height:122px;
+	margin: 0 auto;
+}
+/* END HEADER */
+
+/* LOGO */
+#logo
+{
+	position: absolute;
+	bottom: 0.6em;
+}
+
+#logo img
+{
+	position: absolute;
+	bottom: 0em;
+	border:none;
+}
+/* END LOGO */
+
+/* MAIN MENU */
+#menu
+{
+	position: absolute;
+	right: 0em;
+	bottom: 0em;
+}
+
+#menu ul
+{
+	list-style: none;
+}
+
+#menu li
+{
+	float: left;
+}
+
+#menu li a
+{
+	margin-left: 0.5em;
+	display: block;
+	padding: 1.1em 1.4em 1.0em 1.4em;
+	background: #2FB0CA url('/media/images/menuactive.png') repeat-x;
+	border: solid 1px #2FB0CA;
+	color: #fff;
+	font-weight: bold;
+	font-size: 1.0em;
+	text-decoration: none;
+}
+
+#menu li a:hover
+{
+	margin-left: 0.5em;
+	display: block;
+	padding: 1.1em 1.4em 1.0em 1.4em;
+	background: #2F91CA url('/media/images/menuover.png') repeat-x;
+	border: solid 1px #2F91CA;
+	color:#FFF;
+	font-weight: bold;
+	font-size: 1.0em;
+	text-decoration: none;
+}
+#menu li a.active
+{
+	background: #fff url('/media/images/menu.png') repeat-x;
+	border: solid 1px #fff;
+	color: #616161;
+}
+/* END MAIN MENU */
+
+/* MAIN CONTENT */
+#main
+{
+   background: #fff url('/media/images/mainbg.png') repeat-x;
+   padding-bottom:120px;
+}
+
+#main_content
+{
+    padding-top:20px;
+    width:950px;
+    margin:0 auto;
+    overflow:hidden;
+}
+
+#main_content p
+{
+	text-align: justify;
+	margin-bottom: 2.0em;
+}
+
+#main_content ul
+{
+	margin-bottom: 2.0em;
+}
+
+#main_content h3,h4
+{
+	border-bottom: dotted 1px #E1E1E1;
+	position: relative;
+}
+
+#main_content h3
+{
+	font-size: 2.1em;
+	padding-bottom: 0.1em;
+	margin-bottom: 0.8em;
+}
+
+#main_content h4
+{
+	font-size: 1.2em;
+	padding-bottom: 0.175em;
+	margin-bottom: 1.4em;
+	margin-top: 0.95em;
+}
+/* END MAIN CONTENT */
+
+/* FOOTER */
+#footer
+{
+   background:#333 url("/media/images/bodybg.png");
+   color:#999;
+   padding-top: 0em;
+   padding-bottom: 1.5em;
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:60px;   /* Height of the footer */
+}
+
+#footer_content
+{
+   background:#333 url('/media/images/footerbg.png') repeat-x;
+   padding-top: 10px;
+   padding-bottom: 10px;
+   text-align:center;
+}
+/* END FOOTER */

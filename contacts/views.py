@@ -3,60 +3,67 @@ from django.template.context import RequestContext
 from contacts.forms import NewContactForm, NewScheduleForm
 from contacts.models import Contact, ContactSchedules, ContactHistory
 from django.shortcuts import render_to_response
+from django.template.loader import render_to_string
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-#from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse
 from errors.views import general_error
+from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.core.mail import EmailMessage
 
 @login_required
 def dashboard(request):
-    try:
-        contacts = Contact.active.filter(user=request.user)
-        schedules = ContactSchedules.objects.filter(user=request.user)
-        histories = ContactHistory.objects.filter(user=request.user)
+    contacts = Contact.active.filter(user=request.user)
+    schedules = ContactSchedules.objects.filter(user=request.user)
+    histories = ContactHistory.objects.filter(user=request.user)
 
-        return render_to_response('contacts/dashboard.html', {'dashboard_active':'active', 'contacts':contacts, 'schedules':schedules, 'histories':histories },
-                                    context_instance=RequestContext(request))
-    except Exception, e:
-         return general_error(request, title='Error in Dashboard', message=e.message, redirect='home.views.index')
+    return render_to_response('contacts/dashboard.html', {'dashboard_active':'active', 'contacts':contacts, 'schedules':schedules, 'histories':histories },
+                                context_instance=RequestContext(request))
 
 @login_required
 def view_contact(request, contact_id):
-    try:
-        c = Contact.active.get(id=contact_id, user=request.user)
+    c = get_object_or_404(Contact, id=contact_id, user=request.user)
 
-        
-        ch = ContactHistory()
-        ch.user = request.user
-        ch.action = 'viewed'
-        ch.contact = Contact.active.get(id=c.id)
-        ch.save()
+    ch = ContactHistory()
+    ch.user = request.user
+    ch.action = 'viewed'
+    ch.contact = Contact.active.get(id=c.id)
+    ch.save()
 
-        return render_to_response('contacts/view_contact.html', {'dashboard_active':'active', 'contact':c},
-                                  context_instance=RequestContext(request))
-    except Exception, e:
-        return general_error(request, title='Error Viewing Contact', message=e.message, redirect='contacts.views.dashboard')
+    return render_to_response('contacts/view_contact.html', {'dashboard_active':'active', 'contact':c},
+                              context_instance=RequestContext(request))
 
 @login_required
 def view_schedule(request, schedule_id):
-    try:
-        cs = ContactSchedules.objects.filter(id=schedule_id, user=request.user)
-        return render_to_response('contacts/view_schedule.html', {'dashboard_active':'active', 'schedule':cs},
-                                  context_instance=RequestContext(request))
-    except Exception, e:
-        return general_error(request, title='Error Viewing Schedule', message=e.message, redirect='contacts.views.dashboard')
+    cs = get_object_or_404(ContactSchedules, id=schedule_id, user=request.user)
+    return render_to_response('contacts/view_schedule.html', {'dashboard_active':'active', 'schedule':cs},
+                              context_instance=RequestContext(request))
 
 @login_required
 def new_contact(request):
+    
     try:
         if request.method == 'POST':
             form = NewContactForm(request.POST)
             if form.is_valid():
                 new_contact = form.save(commit=False)
+
+                user_exists = User.objects.filter(email=new_contact.email).exists()
+
+                if user_exists == False:
+                    from django.core.mail import send_mail
+                    Site.objects.clear_cache()
+                    body = render_to_string('accounts/mails/invite.html', {'user':request.user, 'url':'http://' + Site.objects.get_current().domain + reverse('register')    })
+
+                    mail = EmailMessage('Contaker Invitation', body, to=[new_contact.email])
+                    mail.content_subtype = 'html'
+                    mail.send()
+
                 new_contact.user = request.user
                 new_contact.save()
-
+                
                 ch = ContactHistory()
                 ch.user = request.user
                 ch.action = 'added'
@@ -71,7 +78,9 @@ def new_contact(request):
         return render_to_response('contacts/new_contact.html', {'dashboard_active':'active', 'form':form},
                                     context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Creating Contact', message=e.message, redirect='contacts.views.dashboard')
+        messages.error(request, e.message)
+        return render_to_response('contacts/new_contact.html', {'dashboard_active':'active', 'form':form},
+                                    context_instance=RequestContext(request))
 
 @login_required
 def edit_contact(request, contact_id):
@@ -96,10 +105,12 @@ def edit_contact(request, contact_id):
             c = Contact.active.get(id=contact_id, user=request.user)
             form = NewContactForm(instance=c)
 
-            return render_to_response('contacts/edit_contact.html', {'dashboard_active':'active', 'form':form, 'contact':c},
+        return render_to_response('contacts/edit_contact.html', {'dashboard_active':'active', 'form':form, 'contact':c},
                                         context_instance=RequestContext(request))
     except Exception, e:
-        return general_error(request, title='Error Editing Contact', message=e.message, redirect='contacts.views.dashboard')
+        messages.error(request, e.message)
+        return render_to_response('contacts/edit_contact.html', {'dashboard_active':'active', 'form':form, 'contact':c},
+                                        context_instance=RequestContext(request))
 
 @login_required
 def delete_contact(request, contact_id):

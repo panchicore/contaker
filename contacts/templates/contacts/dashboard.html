@@ -33,25 +33,21 @@
 
 			<div id="history">
 				<h3>History</h3>
-                <ol>
+                <ul>
                 {% for h in histories %}
                     <li>{{ h }}</li>
                 {% empty %}
                     <li><p>Oops, no schedules here :(</p></li>
                 {% endfor %}
-                </ol>
+                </ul>
 			</div>
 
 			<div id="tools">
 				<h3>Tools</h3>
 				<form method="post" action="templates">
-				<div id="search">
 					<input type="text" class="text" name="keywords" />
-					<input type="submit" class="button" value="Go" />
-					<br class="clear" />
-				</div>
+					<input type="submit" class="small blue awesome" value="Go" />
 				</form>
 			</div>
-
 {% endblock %}
 

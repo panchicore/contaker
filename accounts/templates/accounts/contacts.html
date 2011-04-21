@@ -6,7 +6,7 @@
     {% load uni_form_tags %}
     <form action="{% url update_contacts %}" method="POST" class="uniForm">
     {% for c in contacts %}
-        {% if c.name != c.emails|first %}
+        {% if c.name != '' %}
             <div id="div_contact_holder{{ forloop.counter }}" class="ctrlHolder ">
                 <input type="checkbox" name="selected{{ forloop.counter0 }}" checked class="checkbox" />
                 <input type="text" name="name{{ forloop.counter0 }}" value="{{ c.name }}" class="text" />
